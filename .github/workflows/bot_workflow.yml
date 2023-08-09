@@ -1,0 +1,27 @@
+name: Bot Workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  send-bot-message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set Up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Run Bot Script
+        run: |
+          pip install -r requirements.txt
+          python bot_message.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
